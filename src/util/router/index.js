@@ -1,6 +1,5 @@
 import React, { Component, Suspense } from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { storageService } from '../../services/storageService';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PrivateRoute from './privateRoute';
 import PublicRoute from './publicRoute';
 
@@ -42,9 +41,8 @@ class RouterComponent extends Component {
         },
         {
           path: '*',
-          exact: true,
           component: NotFound,
-          isPrivate: false,
+          isPrivate: true,
         },
       ],
     };
@@ -52,27 +50,14 @@ class RouterComponent extends Component {
 
   render() {
     const { routes } = this.state;
-    const isLogin = storageService.getToken();
     return (
       <Router>
         <Switch>
           {routes.map((r, i) =>
             r.isPrivate ? (
-              <PrivateRoute
-                key={i}
-                path={r.path}
-                exact={r.exact}
-                component={WaitingComponent(r.component)}
-                isLogin={isLogin}
-              />
+              <PrivateRoute key={i} path={r.path} exact={r.exact} component={WaitingComponent(r.component)} />
             ) : (
-              <PublicRoute
-                key={i}
-                path={r.path}
-                exact={r.exact}
-                component={WaitingComponent(r.component)}
-                isLogin={isLogin}
-              />
+              <PublicRoute key={i} path={r.path} exact={r.exact} component={WaitingComponent(r.component)} />
             )
           )}
         </Switch>

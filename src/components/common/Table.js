@@ -30,7 +30,7 @@ const Pagging = ({ total, perPage = 5, onChange = () => null, currentPage = 1 })
 
 const Table = ({ dataSource = [] }) => {
   const perPage = 5;
-  const headers = Object.keys(dataSource[0]);
+  const headers = dataSource && dataSource.length ? Object.keys(dataSource[0]) : [];
   const [page, setPage] = useState(1);
   const [data, setData] = useState(dataSource.slice(perPage * (page - 1), perPage * page));
 

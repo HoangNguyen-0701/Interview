@@ -12,11 +12,11 @@ const Narbar = () => {
     history.replace('/login');
   };
   return (
-    <nav className="navbar col-lg-12 col-12 p-3 fixed-top d-flex flex-row bg-secondary">
+    <nav className="navbar col-lg-12 col-12 fixed-top d-flex flex-row bg-secondary">
       <Link className="navbar-brand brand-logo mr-5" to="/">
         <img src={logoImg} className="mr-2" alt="logo" />
       </Link>
-      <button className="navbar-brand btn" onClick={onLogout}>
+      <button className="btn" onClick={onLogout}>
         <img src={logoutImg} className="brand-logo-mini" alt="logo" />
       </button>
     </nav>

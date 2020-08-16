@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { Input, Checkbox } from '../../common';
 
 import { auth } from '../../../services/modules/authService';
 import logoImg from '../../../assets/images/logo.svg';
@@ -8,7 +9,7 @@ import logoImg from '../../../assets/images/logo.svg';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setrememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [hasError, setError] = useState(false);
   let history = useHistory();
 
@@ -17,10 +18,9 @@ const Login = () => {
     if (!username || !password) {
       setError(true);
     } else {
-      auth.login({ username, password }).then((res) => {
-        // history.push('/dashboard');
+      auth.login({ username, password, rememberMe }).then((res) => {
+        history.push('/');
       });
-      history.push('/');
     }
   };
   return (
@@ -32,49 +32,30 @@ const Login = () => {
         <h4>Hello! let's get started</h4>
         <h6 className="font-weight-light">Sign in to continue.</h6>
         <form className="pt-3">
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              id="exampleInputEmail1"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <small className="text-danger">{hasError && !username && 'Your username is invalid'}</small>
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control form-control-lg"
-              id="exampleInputPassword1"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <small className="text-danger">{hasError && !username && 'Your password is invalid'}</small>
-          </div>
+          <Input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChangeValue={setUsername}
+            checkError={hasError && !username}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChangeValue={setPassword}
+            checkError={hasError && !password}
+          />
           <div className="mt-3">
             <button className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onClick={login}>
               SIGN IN
             </button>
           </div>
           <div className="my-2 d-flex justify-content-between align-items-center">
-            <div className="form-check">
-              <label className="form-check-label text-muted">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  value={rememberMe}
-                  onChange={(e) => setrememberMe(e.target.checked)}
-                />
-                Keep me signed in
-                <i className="input-helper"></i>
-              </label>
-            </div>
-            <a href="/forgot-password" className="auth-link text-black">
+            <Checkbox label="Keep me signed in" value={rememberMe} onChangeValue={setRememberMe} />
+            <Link to="/forgot-password" className="auth-link text-black">
               Forgot password?
-            </a>
+            </Link>
           </div>
           <div className="mb-2">
             <button type="button" className="btn btn-block btn-facebook auth-form-btn">

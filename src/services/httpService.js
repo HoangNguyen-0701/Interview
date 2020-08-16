@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { storageService } from './storageService';
 
-const API_URL = 'https://cyb06ylby6.execute-api.ap-southeast-1.amazonaws.com/v1';
+// const API_URL = 'https://cyb06ylby6.execute-api.ap-southeast-1.amazonaws.com/v1';
+const API_URL = 'http://localhost:3001';
 const axiosInstance = axios.create({
   baseURL: API_URL,
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Access-Control-Allow-Origin': '*' },
+  headers: { 'Content-Type': 'application/json;charset=utf-8', 'Access-Control-Allow-Origin': '*' },
   /* other custom settings */
 });
 class HttpService {
@@ -20,7 +21,7 @@ class HttpService {
         return config;
       },
       (error) => {
-        return error;
+        return Promise.reject(error);
       }
     );
   }
@@ -52,11 +53,11 @@ class HttpService {
   }
 
   handleError(error) {
-    console.error(error);
-    // if (error.data.error.code === 401) {
-    //   alert(error.data.error.message);
-    // }
-    // return error;
+    console.error(1111, error.response);
+    if (error.response.status === 401) {
+      alert(error.response.statusText);
+    }
+    return error;
   }
 }
 const httpService = new HttpService();

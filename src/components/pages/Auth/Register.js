@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { Input, Checkbox } from '../../common';
 
 import logoImg from '../../../assets/images/logo.svg';
 
@@ -11,7 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   let history = useHistory();
 
-  const [rememberMe, setrememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [hasError, setError] = useState(false);
 
   const regexEmail = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/gi;
@@ -38,34 +39,27 @@ const Register = () => {
         <h4>New here?</h4>
         <h6 className="font-weight-light">Signing up is easy. It only takes a few steps</h6>
         <form className="pt-3">
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              id="exampleInputUsername1"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                setError(false);
-              }}
-            />
-            <small className="text-danger">{hasError && !username && 'Your username is invalid'}</small>
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control form-control-lg"
-              id="exampleInputEmail1"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError(false);
-              }}
-            />
-            <small className="text-danger">{hasError && !isEmail && 'Your email is invalid'}</small>
-          </div>
+          <Input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChangeValue={(v) => {
+              setUsername(v);
+              setError(false);
+            }}
+            checkError={hasError && !username}
+          />
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChangeValue={(v) => {
+              setEmail(v);
+              setError(false);
+            }}
+            checkError={hasError && !isEmail}
+          />
+
           <div className="form-group">
             <select
               className="form-control form-control-lg"
@@ -73,7 +67,6 @@ const Register = () => {
               value={country}
               onChange={(e) => {
                 setCountry(e.target.value);
-                setError(false);
               }}
             >
               <option>Country</option>
@@ -85,36 +78,19 @@ const Register = () => {
             </select>
             <small className="text-danger">{hasError && !country && 'Your country is invalid'}</small>
           </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control form-control-lg"
-              id="exampleInputPassword1"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setError(false);
-              }}
-            />
-            <small className="text-danger">{hasError && !password && 'Your password is invalid'}</small>
-          </div>
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChangeValue={(v) => {
+              setPassword(v);
+              setError(false);
+            }}
+            checkError={hasError && !password}
+          />
+
           <div className="mb-4">
-            <div className="form-check">
-              <label className="form-check-label text-muted">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  value={rememberMe}
-                  onChange={(e) => {
-                    setrememberMe(e.target.checked);
-                    setError(false);
-                  }}
-                />
-                I agree to all Terms &amp; Conditions
-                <i className="input-helper"></i>
-              </label>
-            </div>
+            <Checkbox value={rememberMe} onChangeValue={setRememberMe} label="I agree to all Terms &amp; Conditions" />
           </div>
           <div className="mt-3">
             <button className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onClick={onRegister}>

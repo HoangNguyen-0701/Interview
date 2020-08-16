@@ -2,7 +2,7 @@ import { httpService } from '../httpService';
 class UsersService {
   async getUser() {
     const users = await httpService._get('/users');
-    return users;
+    return users.data;
   }
 }
 
