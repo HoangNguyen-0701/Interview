@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Input, Checkbox } from '../../common';
+import { auth } from '../../../services/modules/authService';
 
 import logoImg from '../../../assets/images/logo.svg';
 
@@ -17,12 +18,18 @@ const Register = () => {
 
   const regexEmail = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/gi;
 
-  const onRegister = (e) => {
+  const onRegister = async (e) => {
     e.preventDefault();
     if (!username || !isEmail || !country || !password) {
       setError(true);
     } else {
-      history.push('/login');
+      try {
+        const res = await auth.register({ username, email, country, password });
+        alert(res.msg);
+        history.push('/login');
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

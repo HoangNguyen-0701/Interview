@@ -16,12 +16,14 @@ const Dashboard = () => {
   const formatData = () => {
     if (!response || !response.length) return [];
     const data = response.map((dt) => {
-      const avatar = <img src={dt.avatar} alt="avatar" />;
+      const avatar = (
+        <img src={'https://tutaylamhet.r.worldssl.net/static/web_new/css/images/no-avatar.jpg'} alt="avatar" />
+      );
       return {
         avatar: avatar,
-        username: dt.name,
+        username: dt.username,
         email: dt.email,
-        phone: dt.phone,
+        country: dt.country,
       };
     });
     return data;

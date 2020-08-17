@@ -6,9 +6,18 @@ class Auth {
     try {
       const { data } = await httpService._post(`/login`, dataLogin);
       storageService.setToken(data.token);
-      return data;
+      return Promise.resolve(data);
     } catch (error) {
-      return error;
+      return Promise.reject(error);
+    }
+  };
+
+  register = async (dataRegister) => {
+    try {
+      const { data } = await httpService._post(`/register`, dataRegister);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject(error);
     }
   };
 

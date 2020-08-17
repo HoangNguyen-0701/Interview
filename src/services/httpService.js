@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { storageService } from './storageService';
 
-// const API_URL = 'https://cyb06ylby6.execute-api.ap-southeast-1.amazonaws.com/v1';
 const API_URL = 'http://localhost:3001';
 const axiosInstance = axios.create({
   baseURL: API_URL,
-  headers: { 'Content-Type': 'application/json;charset=utf-8', 'Access-Control-Allow-Origin': '*' },
+  headers: { 'Content-Type': 'application/json;charset=utf-8' },
   /* other custom settings */
 });
+
 class HttpService {
   constructor() {
     axiosInstance.interceptors.request.use(
@@ -53,10 +53,13 @@ class HttpService {
   }
 
   handleError(error) {
-    console.error(1111, error.response);
     if (error.response.status === 401) {
-      alert(error.response.statusText);
+      alert(error.response.data.msg);
+      storageService.romoveToken();
+    } else {
+      alert(error.response.data.msg);
     }
+
     return error;
   }
 }
